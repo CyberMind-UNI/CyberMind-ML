@@ -1,0 +1,61 @@
+{
+  "modelo": "Regresión logística",
+  "datos": "cybermind_sintetico.csv",
+  "particion": "GroupShuffleSplit 75/25 por estudiante, random_state=0",
+  "hiperparametros": {
+    "C": 1.0,
+    "regularizacion": "L2",
+    "solver": "lbfgs",
+    "max_iter": 1000,
+    "umbral_probabilidad": 0.5
+  },
+  "entrenamiento": {
+    "n_filas": 5625,
+    "exactitud": 0.8096,
+    "precision_REFUERZO": 0.8344,
+    "recall_REFUERZO": 0.8805,
+    "F1_REFUERZO": 0.8568,
+    "matriz_confusion": {
+      "VN_avance_ok": 1350,
+      "FP_refuerzo_innecesario": 636,
+      "FN_avance_sin_dominio": 435,
+      "VP_refuerzo_ok": 3204
+    }
+  },
+  "prueba": {
+    "n_filas": 1875,
+    "exactitud": 0.8245,
+    "precision_REFUERZO": 0.8501,
+    "recall_REFUERZO": 0.8991,
+    "F1_REFUERZO": 0.8739,
+    "matriz_confusion": {
+      "VN_avance_ok": 406,
+      "FP_refuerzo_innecesario": 201,
+      "FN_avance_sin_dominio": 128,
+      "VP_refuerzo_ok": 1140
+    }
+  },
+  "diferencia_entreno_menos_prueba": {
+    "exactitud": -0.0149,
+    "precision_REFUERZO": -0.0157,
+    "recall_REFUERZO": -0.0186,
+    "F1_REFUERZO": -0.0171
+  },
+  "intercepto": 0.5544,
+  "coeficientes_estandarizados": {
+    "experiencia_previa_ninguna": 0.5529,
+    "aciertos_intermedio": -0.5448,
+    "tema_seguridad_web": 0.5202,
+    "tema_criptografia": 0.4947,
+    "tema_ingenieria_social": -0.479,
+    "tiempo_promedio_seg": 0.4601,
+    "puntaje_tema": -0.4278,
+    "aciertos_avanzado": -0.388,
+    "puntaje_global": -0.3418,
+    "tema_gestion_vulnerabilidades": 0.2561,
+    "tema_fundamentos_redes": -0.2497,
+    "experiencia_previa_laboral": -0.1066,
+    "experiencia_previa_cursos": 0.096,
+    "aciertos_basico": -0.02
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "metodo": "Regla fija",
+  "hiperparametros": {
+    "umbral_puntaje_tema": 70
+  },
+  "variables": [
+    "puntaje_tema"
+  ],
+  "n_entrenamiento": 5625,
+  "n_prueba": 1875,
+  "exactitud": 0.8128,
+  "ic95_exactitud": [
+    0.7947,
+    0.8315
+  ],
+  "precision_REFUERZO": 0.8585,
+  "recall_REFUERZO": 0.8659,
+  "F1_REFUERZO": 0.8622,
+  "matriz_confusion": {
+    "VN_avance_ok": 426,
+    "FP_refuerzo_innecesario": 181,
+    "FN_avance_sin_dominio": 170,
+    "VP_refuerzo_ok": 1098
+  }
+}

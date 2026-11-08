@@ -1,0 +1,198 @@
+{
+ "puntaje_tema_es_suma": true,
+ "pg_es_media": false,
+ "corr": {
+  "aciertos_basico": {
+   "aciertos_basico": 1.0,
+   "aciertos_intermedio": 0.47,
+   "aciertos_avanzado": 0.29,
+   "puntaje_tema": 0.75,
+   "puntaje_global": 0.58,
+   "tiempo_promedio_seg": -0.04
+  },
+  "aciertos_intermedio": {
+   "aciertos_basico": 0.47,
+   "aciertos_intermedio": 1.0,
+   "aciertos_avanzado": 0.37,
+   "puntaje_tema": 0.82,
+   "puntaje_global": 0.57,
+   "tiempo_promedio_seg": -0.12
+  },
+  "aciertos_avanzado": {
+   "aciertos_basico": 0.29,
+   "aciertos_intermedio": 0.37,
+   "aciertos_avanzado": 1.0,
+   "puntaje_tema": 0.73,
+   "puntaje_global": 0.45,
+   "tiempo_promedio_seg": -0.11
+  },
+  "puntaje_tema": {
+   "aciertos_basico": 0.75,
+   "aciertos_intermedio": 0.82,
+   "aciertos_avanzado": 0.73,
+   "puntaje_tema": 1.0,
+   "puntaje_global": 0.7,
+   "tiempo_promedio_seg": -0.12
+  },
+  "puntaje_global": {
+   "aciertos_basico": 0.58,
+   "aciertos_intermedio": 0.57,
+   "aciertos_avanzado": 0.45,
+   "puntaje_tema": 0.7,
+   "puntaje_global": 1.0,
+   "tiempo_promedio_seg": -0.06
+  },
+  "tiempo_promedio_seg": {
+   "aciertos_basico": -0.04,
+   "aciertos_intermedio": -0.12,
+   "aciertos_avanzado": -0.11,
+   "puntaje_tema": -0.12,
+   "puntaje_global": -0.06,
+   "tiempo_promedio_seg": 1.0
+  }
+ },
+ "auc_univariado": {
+  "aciertos_basico": 0.695,
+  "aciertos_intermedio": 0.786,
+  "aciertos_avanzado": 0.743,
+  "puntaje_tema": 0.837,
+  "puntaje_global": 0.766,
+  "tiempo_promedio_seg": 0.627
+ },
+ "tasa_refuerzo": {
+  "tema": {
+   "criptografia": 0.771,
+   "fundamentos_redes": 0.551,
+   "gestion_vulnerabilidades": 0.701,
+   "ingenieria_social": 0.489,
+   "seguridad_web": 0.759
+  },
+  "experiencia_previa": {
+   "cursos": 0.586,
+   "laboral": 0.425,
+   "ninguna": 0.771
+  }
+ },
+ "ablacion_logistica(cv_ent, prueba)": {
+  "todas": [
+   0.8078,
+   0.8245
+  ],
+  "sin tema": [
+   0.8041,
+   0.8203
+  ],
+  "sin experiencia_previa": [
+   0.8089,
+   0.8283
+  ],
+  "sin aciertos (3 niveles)": [
+   0.811,
+   0.8309
+  ],
+  "sin puntaje_tema": [
+   0.8076,
+   0.8245
+  ],
+  "sin puntaje_global": [
+   0.8055,
+   0.824
+  ],
+  "sin tiempo_promedio_seg": [
+   0.8112,
+   0.8267
+  ],
+  "solo puntaje_tema": [
+   0.8021,
+   0.8128
+  ],
+  "puntaje_tema + tema": [
+   0.805,
+   0.8128
+  ],
+  "puntaje_tema + tema + experiencia": [
+   0.8052,
+   0.8176
+  ],
+  "puntaje_tema + tema + tiempo": [
+   0.8027,
+   0.8149
+  ],
+  "puntaje_tema + tema + tiempo + puntaje_global": [
+   0.8092,
+   0.8283
+  ],
+  "solo aciertos": [
+   0.802,
+   0.8155
+  ]
+ },
+ "perm_importancia_gbdt": {
+  "tema": [
+   0.0122,
+   0.0043
+  ],
+  "experiencia_previa": [
+   0.0031,
+   0.0024
+  ],
+  "aciertos_basico": [
+   0.0028,
+   0.0033
+  ],
+  "aciertos_intermedio": [
+   0.0072,
+   0.0025
+  ],
+  "aciertos_avanzado": [
+   0.0014,
+   0.0014
+  ],
+  "puntaje_tema": [
+   0.1278,
+   0.0095
+  ],
+  "puntaje_global": [
+   0.0218,
+   0.0051
+  ],
+  "tiempo_promedio_seg": [
+   0.0057,
+   0.0028
+  ]
+ },
+ "perm_importancia_logistica": {
+  "tema": [
+   0.0139,
+   0.0045
+  ],
+  "experiencia_previa": [
+   0.0078,
+   0.0041
+  ],
+  "aciertos_basico": [
+   0.0008,
+   0.0012
+  ],
+  "aciertos_intermedio": [
+   0.0338,
+   0.0061
+  ],
+  "aciertos_avanzado": [
+   0.0118,
+   0.0039
+  ],
+  "puntaje_tema": [
+   0.0175,
+   0.0042
+  ],
+  "puntaje_global": [
+   0.0153,
+   0.0038
+  ],
+  "tiempo_promedio_seg": [
+   0.0111,
+   0.0049
+  ]
+ }
+}

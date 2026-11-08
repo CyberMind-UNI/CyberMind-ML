@@ -1,0 +1,91 @@
+{
+  "metodo": "GBDT vs CART",
+  "GBDT por defecto": {
+    "hiperparametros": {
+      "n_estimators": 100,
+      "learning_rate": 0.1,
+      "max_depth": 3,
+      "subsample": 1.0,
+      "random_state": 0
+    },
+    "n_entrenamiento": 5625,
+    "n_prueba": 1875,
+    "exactitud": 0.8309,
+    "ic95_exactitud": [
+      0.8133,
+      0.8485
+    ],
+    "precision_REFUERZO": 0.8556,
+    "recall_REFUERZO": 0.9022,
+    "F1_REFUERZO": 0.8783,
+    "matriz_confusion": {
+      "VN_avance_ok": 414,
+      "FP_refuerzo_innecesario": 193,
+      "FN_avance_sin_dominio": 124,
+      "VP_refuerzo_ok": 1144
+    }
+  },
+  "GBDT con búsqueda": {
+    "hiperparametros": {
+      "learning_rate": 0.05,
+      "max_depth": 3,
+      "min_samples_leaf": 20,
+      "n_estimators": 200,
+      "subsample": 0.8
+    },
+    "combinaciones": 48,
+    "exactitud_cv": 0.8194,
+    "n_entrenamiento": 5625,
+    "n_prueba": 1875,
+    "exactitud": 0.8304,
+    "ic95_exactitud": [
+      0.8123,
+      0.8475
+    ],
+    "precision_REFUERZO": 0.8561,
+    "recall_REFUERZO": 0.9006,
+    "F1_REFUERZO": 0.8778,
+    "matriz_confusion": {
+      "VN_avance_ok": 415,
+      "FP_refuerzo_innecesario": 192,
+      "FN_avance_sin_dominio": 126,
+      "VP_refuerzo_ok": 1142
+    }
+  },
+  "CART con búsqueda": {
+    "hiperparametros": {
+      "max_depth": 3,
+      "min_samples_leaf": 100
+    },
+    "combinaciones": 18,
+    "exactitud_cv": 0.8096,
+    "n_entrenamiento": 5625,
+    "n_prueba": 1875,
+    "exactitud": 0.8197,
+    "ic95_exactitud": [
+      0.7995,
+      0.8379
+    ],
+    "precision_REFUERZO": 0.8365,
+    "recall_REFUERZO": 0.9117,
+    "F1_REFUERZO": 0.8725,
+    "matriz_confusion": {
+      "VN_avance_ok": 381,
+      "FP_refuerzo_innecesario": 226,
+      "FN_avance_sin_dominio": 112,
+      "VP_refuerzo_ok": 1156
+    }
+  },
+  "importancias_gbdt": {
+    "puntaje_tema": 0.7312,
+    "tiempo_promedio_seg": 0.0876,
+    "puntaje_global": 0.0741,
+    "aciertos_intermedio": 0.0311,
+    "tema_ingenieria_social": 0.0173,
+    "experiencia_previa_ninguna": 0.0162,
+    "aciertos_basico": 0.0143,
+    "tema_fundamentos_redes": 0.0087,
+    "tema_criptografia": 0.0064,
+    "tema_seguridad_web": 0.0057
+  }
+}

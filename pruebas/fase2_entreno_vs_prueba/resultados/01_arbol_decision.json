@@ -1,0 +1,52 @@
+{
+  "modelo": "Árbol de decisión (CART)",
+  "datos": "cybermind_sintetico.csv",
+  "particion": "GroupShuffleSplit 75/25 por estudiante, random_state=0",
+  "hiperparametros": {
+    "max_depth": 4,
+    "min_samples_leaf": 50,
+    "criterion": "gini",
+    "random_state": 0
+  },
+  "entrenamiento": {
+    "n_filas": 5625,
+    "exactitud": 0.8142,
+    "precision_REFUERZO": 0.8348,
+    "recall_REFUERZO": 0.8887,
+    "F1_REFUERZO": 0.8609,
+    "matriz_confusion": {
+      "VN_avance_ok": 1346,
+      "FP_refuerzo_innecesario": 640,
+      "FN_avance_sin_dominio": 405,
+      "VP_refuerzo_ok": 3234
+    }
+  },
+  "prueba": {
+    "n_filas": 1875,
+    "exactitud": 0.8176,
+    "precision_REFUERZO": 0.843,
+    "recall_REFUERZO": 0.8975,
+    "F1_REFUERZO": 0.8694,
+    "matriz_confusion": {
+      "VN_avance_ok": 395,
+      "FP_refuerzo_innecesario": 212,
+      "FN_avance_sin_dominio": 130,
+      "VP_refuerzo_ok": 1138
+    }
+  },
+  "diferencia_entreno_menos_prueba": {
+    "exactitud": -0.0034,
+    "precision_REFUERZO": -0.0082,
+    "recall_REFUERZO": -0.0088,
+    "F1_REFUERZO": -0.0085
+  },
+  "importancias": {
+    "puntaje_tema": 0.8922,
+    "tiempo_promedio_seg": 0.046,
+    "puntaje_global": 0.0283,
+    "experiencia_previa_ninguna": 0.0181,
+    "aciertos_avanzado": 0.01,
+    "tema_ingenieria_social": 0.0053
+  },
+  "reglas": "|--- puntaje_tema <= 72.25\n|   |--- puntaje_tema <= 61.15\n|   |   |--- tiempo_promedio_seg <= 18.95\n|   |   |   |--- experiencia_previa_ninguna <= 0.50\n|   |   |   |   |--- class: 1\n|   |   |   |--- experiencia_previa_ninguna >  0.50\n|   |   |   |   |--- class: 1\n|   |   |--- tiempo_promedio_seg >  18.95\n|   |   |   |--- puntaje_tema <= 50.00\n|   |   |   |   |--- class: 1\n|   |   |   |--- puntaje_tema >  50.00\n|   |   |   |   |--- class: 1\n|   |--- puntaje_tema >  61.15\n|   |   |--- experiencia_previa_ninguna <= 0.50\n|   |   |   |--- aciertos_avanzado <= 1.50\n|   |   |   |   |--- class: 1\n|   |   |   |--- aciertos_avanzado >  1.50\n|   |   |   |   |--- class: 1\n|   |   |--- experiencia_previa_ninguna >  0.50\n|   |   |   |--- aciertos_avanzado <= 0.50\n|   |   |   |   |--- class: 1\n|   |   |   |--- aciertos_avanzado >  0.50\n|   |   |   |   |--- class: 1\n|--- puntaje_tema >  72.25\n|   |--- puntaje_tema <= 83.35\n|   |   |--- puntaje_global <= 65.55\n|   |   |   |--- tiempo_promedio_seg <= 38.20\n|   |   |   |   |--- class: 0\n|   |   |   |--- tiempo_promedio_seg >  38.20\n|   |   |   |   |--- class: 1\n|   |   |--- puntaje_global >  65.55\n|   |   |   |--- tema_ingenieria_social <= 0.50\n|   |   |   |   |--- class: 0\n|   |   |   |--- tema_ingenieria_social >  0.50\n|   |   |   |   |--- class: 0\n|   |--- puntaje_tema >  83.35\n|   |   |--- puntaje_global <= 74.45\n|   |   |   |--- puntaje_tema <= 94.45\n|   |   |   |   |--- class: 0\n|   |   |   |--- puntaje_tema >  94.45\n|   |   |   |   |--- class: 0\n|   |   |--- puntaje_global >  74.45\n|   |   |   |--- puntaje_tema <= 94.45\n|   |   |   |   |--- class: 0\n|   |   |   |--- puntaje_tema >  94.45\n|   |   |   |   |--- class: 0\n"
+}

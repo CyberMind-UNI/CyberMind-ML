@@ -1,0 +1,45 @@
+{
+  "modelo": "k vecinos más cercanos (kNN)",
+  "datos": "cybermind_sintetico.csv",
+  "particion": "GroupShuffleSplit 75/25 por estudiante, random_state=0",
+  "hiperparametros": {
+    "n_neighbors": 51,
+    "p": 1,
+    "weights": "uniform"
+  },
+  "entrenamiento": {
+    "n_filas": 5625,
+    "exactitud": 0.8229,
+    "precision_REFUERZO": 0.848,
+    "recall_REFUERZO": 0.8849,
+    "F1_REFUERZO": 0.8661,
+    "matriz_confusion": {
+      "VN_avance_ok": 1409,
+      "FP_refuerzo_innecesario": 577,
+      "FN_avance_sin_dominio": 419,
+      "VP_refuerzo_ok": 3220
+    }
+  },
+  "prueba": {
+    "n_filas": 1875,
+    "exactitud": 0.8304,
+    "precision_REFUERZO": 0.8604,
+    "recall_REFUERZO": 0.8943,
+    "F1_REFUERZO": 0.877,
+    "matriz_confusion": {
+      "VN_avance_ok": 423,
+      "FP_refuerzo_innecesario": 184,
+      "FN_avance_sin_dominio": 134,
+      "VP_refuerzo_ok": 1134
+    }
+  },
+  "diferencia_entreno_menos_prueba": {
+    "exactitud": -0.0075,
+    "precision_REFUERZO": -0.0124,
+    "recall_REFUERZO": -0.0094,
+    "F1_REFUERZO": -0.0109
+  },
+  "busqueda": "GridSearchCV, GroupKFold(5) sobre el 75 % de entrenamiento, métrica = exactitud",
+  "combinaciones_probadas": 40,
+  "exactitud_validacion_cruzada": 0.8169
+}

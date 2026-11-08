@@ -1,0 +1,71 @@
+{
+  "metodo": "kNN",
+  "hiperparametros": {
+    "n_neighbors": 51,
+    "p": 1,
+    "weights": "uniform"
+  },
+  "rejilla_probada": {
+    "n_neighbors": [
+      1,
+      3,
+      5,
+      9,
+      15,
+      25,
+      35,
+      51,
+      75,
+      101
+    ],
+    "weights": [
+      "uniform",
+      "distance"
+    ],
+    "p": [
+      1,
+      2
+    ]
+  },
+  "combinaciones_probadas": 40,
+  "validacion": "GroupKFold(5) sobre entrenamiento, métrica = exactitud",
+  "exactitud_cv_entrenamiento": 0.8169,
+  "exactitud_cv_por_k": {
+    "1": 0.7404,
+    "3": 0.7849,
+    "5": 0.7968,
+    "9": 0.8069,
+    "15": 0.8107,
+    "25": 0.8164,
+    "35": 0.8155,
+    "51": 0.8169,
+    "75": 0.8156,
+    "101": 0.8164
+  },
+  "variables": [
+    "tema",
+    "experiencia_previa",
+    "aciertos_basico",
+    "aciertos_intermedio",
+    "aciertos_avanzado",
+    "puntaje_tema",
+    "puntaje_global",
+    "tiempo_promedio_seg"
+  ],
+  "n_entrenamiento": 5625,
+  "n_prueba": 1875,
+  "exactitud": 0.8304,
+  "ic95_exactitud": [
+    0.8128,
+    0.848
+  ],
+  "precision_REFUERZO": 0.8604,
+  "recall_REFUERZO": 0.8943,
+  "F1_REFUERZO": 0.877,
+  "matriz_confusion": {
+    "VN_avance_ok": 423,
+    "FP_refuerzo_innecesario": 184,
+    "FN_avance_sin_dominio": 134,
+    "VP_refuerzo_ok": 1134
+  }
+}

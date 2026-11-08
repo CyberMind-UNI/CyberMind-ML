@@ -1,0 +1,59 @@
+{
+  "modelo": "Gradient Boosting de árboles (GBDT)",
+  "datos": "cybermind_sintetico.csv",
+  "particion": "GroupShuffleSplit 75/25 por estudiante, random_state=0",
+  "hiperparametros": {
+    "learning_rate": 0.05,
+    "max_depth": 3,
+    "min_samples_leaf": 20,
+    "n_estimators": 200,
+    "subsample": 0.8
+  },
+  "entrenamiento": {
+    "n_filas": 5625,
+    "exactitud": 0.8361,
+    "precision_REFUERZO": 0.8542,
+    "recall_REFUERZO": 0.9002,
+    "F1_REFUERZO": 0.8766,
+    "matriz_confusion": {
+      "VN_avance_ok": 1427,
+      "FP_refuerzo_innecesario": 559,
+      "FN_avance_sin_dominio": 363,
+      "VP_refuerzo_ok": 3276
+    }
+  },
+  "prueba": {
+    "n_filas": 1875,
+    "exactitud": 0.8304,
+    "precision_REFUERZO": 0.8561,
+    "recall_REFUERZO": 0.9006,
+    "F1_REFUERZO": 0.8778,
+    "matriz_confusion": {
+      "VN_avance_ok": 415,
+      "FP_refuerzo_innecesario": 192,
+      "FN_avance_sin_dominio": 126,
+      "VP_refuerzo_ok": 1142
+    }
+  },
+  "diferencia_entreno_menos_prueba": {
+    "exactitud": 0.0057,
+    "precision_REFUERZO": -0.0019,
+    "recall_REFUERZO": -0.0004,
+    "F1_REFUERZO": -0.0012
+  },
+  "busqueda": "GridSearchCV, GroupKFold(5) sobre el 75 % de entrenamiento, métrica = exactitud",
+  "combinaciones_probadas": 48,
+  "exactitud_validacion_cruzada": 0.8194,
+  "importancias": {
+    "puntaje_tema": 0.7312,
+    "tiempo_promedio_seg": 0.0876,
+    "puntaje_global": 0.0741,
+    "aciertos_intermedio": 0.0311,
+    "tema_ingenieria_social": 0.0173,
+    "experiencia_previa_ninguna": 0.0162,
+    "aciertos_basico": 0.0143,
+    "tema_fundamentos_redes": 0.0087,
+    "tema_criptografia": 0.0064,
+    "tema_seguridad_web": 0.0057
+  }
+}
