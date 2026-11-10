@@ -4,7 +4,7 @@ Proyecto universitario de Inteligencia Artificial. **CyberMind** es una platafor
 
 El repositorio muestra el avance de las pruebas: cómo se generó el dataset, qué modelos se probaron, con qué resultados y cómo reproducir todo.
 
-> **Estado (noviembre 2026):** dataset sintético validado, 5 métodos comparados (regla fija + 4 modelos de ML) y evaluación entrenamiento vs. prueba terminada. **Todavía no se ha elegido el modelo final**: el equipo espera la recomendación del profesor.
+> **Estado (noviembre 2026):** dataset sintético validado, 5 métodos comparados (regla fija + 4 modelos de ML), evaluación entrenamiento vs. prueba terminada y **modelo seleccionado: Gradient Boosting (GBDT)**, elegido por la calidad de su probabilidad (ver [fase 3](#fase-3--selección-del-modelo)).
 
 ---
 
@@ -14,11 +14,12 @@ El repositorio muestra el avance de las pruebas: cómo se generó el dataset, qu
 2. [Dataset sintético](#2-dataset-sintético)
 3. [Modelos probados](#3-modelos-probados)
 4. [Resultados](#4-resultados)
-5. [Estructura del repositorio](#5-estructura-del-repositorio)
-6. [Cómo reproducir](#6-cómo-reproducir)
-7. [Documentación](#7-documentación)
-8. [Próximos pasos](#8-próximos-pasos)
-9. [Equipo](#9-equipo)
+5. [Modelo final para la app](#5-modelo-final-para-la-app)
+6. [Estructura del repositorio](#6-estructura-del-repositorio)
+7. [Cómo reproducir](#7-cómo-reproducir)
+8. [Documentación](#8-documentación)
+9. [Próximos pasos](#9-próximos-pasos)
+10. [Equipo](#10-equipo)
 
 ---
 
@@ -33,7 +34,7 @@ Tras la retroalimentación del Avance II, el alcance se redujo a **una sola deci
 | **Tipo de tarea** | Aprendizaje supervisado, clasificación binaria. Clase positiva: `REFUERZO`. |
 | **Temas** | Fundamentos de redes, criptografía, seguridad web, ingeniería social, gestión de vulnerabilidades. |
 
-La IA está **desacoplada de la app**: se plantea como un servicio REST independiente (`POST /v1/decision`, `GET /salud`). Si el servicio no responde, la app usa una ruta por defecto (refuerzo si el puntaje es menor a 70 %).
+La IA está **desacoplada de la app**: el modelo se entrena aquí, en Python, y se entrega como un archivo `.onnx` que la app ejecuta localmente en el celular (ver [sección 5](#5-modelo-final-para-la-app)). Para cambiar el modelo basta con reemplazar ese archivo. Si el modelo no carga, la app usa una ruta por defecto (refuerzo si el puntaje es menor a 70 %).
 
 ## 2. Dataset sintético
 
@@ -98,6 +99,24 @@ Se pidió comprobar si los modelos sobreajustan comparando su desempeño en entr
 
 Cada modelo tiene además su propia figura (matriz de confusión y métricas) en [`pruebas/fase2_entreno_vs_prueba/resultados/`](pruebas/fase2_entreno_vs_prueba/resultados/).
 
+### Fase 3 · Selección del modelo
+
+Como la exactitud de los cuatro modelos está empatada, el profesor recomendó buscar un factor que destaque a uno sobre los demás. El factor elegido es la **calidad de la probabilidad**: el servicio devuelve una probabilidad de REFUERZO y la app decide con ella (el umbral se puede subir para ser más prudente), así que esa probabilidad debe ser confiable.
+
+Se repitió 30 veces la partición 75/25 por estudiante (semillas 100 a 129) con los mismos hiperparámetros de la fase 2 y se contó qué modelo gana en cada partición:
+
+| Métrica (promedio de 30 particiones) | Árbol | Logística | kNN | GBDT | GBDT gana en |
+|---|---|---|---|---|---|
+| Log loss (menor = mejor) | 0,431 | 0,443 | 0,443 | **0,412** | 30 de 30 |
+| AUC (mayor = mejor) | 0,861 | 0,857 | 0,871 | **0,874** | 28 de 30 |
+| Brier (menor = mejor) | 0,136 | 0,138 | 0,131 | **0,129** | 26 de 30 |
+| Avances sin dominio por partición | 152 | 136 | 139 | **131** | 16 de 30 |
+| Exactitud | 0,806 | 0,814 | 0,819 | 0,820 | 17 de 30 |
+
+**Modelo seleccionado: GBDT** (200 árboles, profundidad 3, tasa de aprendizaje 0,05, hoja mínima 20, submuestreo 0,8). Tiene el menor log loss en las 30 particiones, no sobreajusta (0,836 entreno / 0,830 prueba) y responde en unos 2,3 ms por estudiante. Su desventaja es que es menos interpretable; se compensa con la importancia de variables (abajo) y con la regla del 70 % como ruta por defecto.
+
+![Selección del modelo](pruebas/fase3_seleccion_modelo/resultados/seleccion_modelo.png)
+
 ### Relevancia de variables
 
 `puntaje_tema` es la variable que más aporta (solo con ella se obtiene 0,813 en prueba frente a 0,825 con las 8). Quitar cualquier otra variable cambia la exactitud en menos de 0,5 puntos porque se solapan entre sí (`puntaje_tema` es la suma de los `aciertos_*`). El análisis completo está en [`docs/`](docs/).
@@ -106,7 +125,33 @@ Cada modelo tiene además su propia figura (matriz de confusión y métricas) en
 
 > Estos resultados validan el procedimiento sobre **datos sintéticos**; no miden todavía el efecto pedagógico con estudiantes reales.
 
-## 5. Estructura del repositorio
+## 5. Modelo final para la app
+
+El modelo elegido (GBDT) se entrena con el 100 % del dataset y se exporta en **un solo archivo**, [`modelo/cybermind_gbdt.onnx`](modelo/cybermind_gbdt.onnx) (unos 106 KB), para que la decisión se calcule **dentro del celular**, sin internet ni servidor.
+
+**Por qué ONNX y no `.pkl` o `.h5`:** un `.pkl` solo lo abre Python, y en el celular no hay Python. El `.h5` es el formato de Keras/TensorFlow para redes neuronales; un GBDT de scikit-learn no se guarda así. ONNX es un formato abierto que [ONNX Runtime](https://onnxruntime.ai/) ejecuta en Android, iOS, Flutter y React Native.
+
+| | |
+|---|---|
+| **Entradas** | Las 8 variables tal cual, cada una con forma `[1, 1]`: `tema` y `experiencia_previa` como texto; las 6 numéricas como `float32` |
+| **Salidas** | `label` (1 = REFUERZO, 0 = AVANCE) y `probabilities` = `[prob. AVANCE, prob. REFUERZO]` |
+| **Umbral** | REFUERZO si la probabilidad de REFUERZO es ≥ 0,5 |
+| **Si el modelo no carga** | La app usa la ruta por defecto: REFUERZO si `puntaje_tema` < 70 |
+| **Verificación** | En las 7.500 filas, el `.onnx` da las mismas decisiones que scikit-learn y sus probabilidades difieren en menos de 0,000001 |
+
+El propio archivo guarda su versión, el umbral, los valores válidos de `tema` y `experiencia_previa` y las métricas de referencia (en `metadata_props`).
+
+```bash
+pip install skl2onnx onnxruntime
+python src/entrenar_modelo_final.py    # entrena y genera modelo/cybermind_gbdt.onnx
+python src/probar_modelo_onnx.py       # lo usa como la app: solo ONNX Runtime, sin scikit-learn
+```
+
+**En la app Android (Kotlin + Jetpack Compose):** el archivo va en `app/src/main/assets/` y se ejecuta con `com.microsoft.onnxruntime:onnxruntime-android`. El código que carga el modelo vive en el repositorio de la app: carga el modelo, arma las 8 entradas, devuelve la ruta con su probabilidad y aplica la ruta por defecto si el modelo no carga. La decisión puede guardarse luego en Supabase junto con la versión del modelo.
+
+Las variables numéricas entran sin estandarizar: un árbol no cambia sus decisiones por la escala, y así el modelo del celular reproduce exactamente al de Python.
+
+## 6. Estructura del repositorio
 
 ```
 CyberMind-ML/
@@ -116,9 +161,13 @@ CyberMind-ML/
 ├── data/
 │   ├── cybermind_sintetico.csv          # dataset (7.500 filas, 10 columnas)
 │   └── diccionario_de_datos.md          # descripción de variables y etiqueta
+├── modelo/
+│   └── cybermind_gbdt.onnx              # modelo final (GBDT) para la app del celular
 ├── src/
 │   ├── generar_dataset.py               # genera el dataset (semilla 42)
-│   └── verificar_dataset.py             # comprueba que la etiqueta es aprendible
+│   ├── verificar_dataset.py             # comprueba que la etiqueta es aprendible
+│   ├── entrenar_modelo_final.py         # entrena el GBDT final y genera el .onnx
+│   └── probar_modelo_onnx.py            # usa el .onnx como lo haría la app
 ├── pruebas/
 │   ├── fase1_comparacion_modelos/       # regla fija + 4 modelos, métricas en prueba
 │   │   ├── 01_regla_fija.py
@@ -128,12 +177,15 @@ CyberMind-ML/
 │   │   ├── 05_gbdt.py
 │   │   ├── comparar_knn.py
 │   │   └── resultados/                  # JSON por método + gráficas
-│   └── fase2_entreno_vs_prueba/         # 4 modelos: entrenamiento vs. prueba
-│       ├── 01_arbol_decision.py
-│       ├── 02_regresion_logistica.py
-│       ├── 03_knn.py
-│       ├── 04_gbdt.py
-│       └── resultados/                  # JSON + PNG por modelo y comparación
+│   ├── fase2_entreno_vs_prueba/         # 4 modelos: entrenamiento vs. prueba
+│   │   ├── 01_arbol_decision.py
+│   │   ├── 02_regresion_logistica.py
+│   │   ├── 03_knn.py
+│   │   ├── 04_gbdt.py
+│   │   └── resultados/                  # JSON + PNG por modelo y comparación
+│   └── fase3_seleccion_modelo/          # criterio de desempate: 30 particiones
+│       ├── seleccion_modelo.py
+│       └── resultados/
 ├── notebooks/
 │   ├── 01_generacion_dataset.ipynb      # genera y explora el dataset
 │   ├── 02_pruebas_modelos.ipynb         # fase 1 en un solo cuaderno
@@ -141,7 +193,7 @@ CyberMind-ML/
 └── docs/                                # documentos entregados al profesor
 ```
 
-## 6. Cómo reproducir
+## 7. Cómo reproducir
 
 Requisitos: Python 3.10 o superior.
 
@@ -171,6 +223,9 @@ python pruebas/fase2_entreno_vs_prueba/01_arbol_decision.py
 python pruebas/fase2_entreno_vs_prueba/02_regresion_logistica.py
 python pruebas/fase2_entreno_vs_prueba/03_knn.py
 python pruebas/fase2_entreno_vs_prueba/04_gbdt.py
+
+# Fase 3: selección del modelo (tarda unos minutos)
+python pruebas/fase3_seleccion_modelo/seleccion_modelo.py
 ```
 
 Cada script guarda sus resultados en la carpeta `resultados/` que tiene al lado. Con la semilla fija, los números salen iguales a los de este README.
@@ -183,7 +238,7 @@ Regenerar el dataset (opcional, sale idéntico con la semilla 42):
 python src/generar_dataset.py
 ```
 
-## 7. Documentación
+## 8. Documentación
 
 | Documento | Contenido |
 |---|---|
@@ -193,17 +248,18 @@ python src/generar_dataset.py
 | [`docs/Documentacion_CyberMind_problema_variables_modelos.docx`](docs/Documentacion_CyberMind_problema_variables_modelos.docx) | Problema, justificación de variables, modelos y comparación |
 | [`docs/analisis_variables.json`](docs/analisis_variables.json) | Datos del análisis de relevancia de variables |
 
-## 8. Próximos pasos
+## 9. Próximos pasos
 
-- [ ] Elegir el modelo final con la recomendación del profesor.
+- [x] Elegir el modelo final con la recomendación del profesor (GBDT, fase 3).
 - [ ] Cerrar la justificación de variables (posible retiro de `aciertos_basico`).
-- [ ] Construir el servicio REST de decisión (`POST /v1/decision`).
+- [x] Exportar el modelo final para el celular (`modelo/cybermind_gbdt.onnx`).
+- [ ] Integrar el `.onnx` en la app con ONNX Runtime.
 - [ ] Validar con datos reales cuando estén disponibles.
 
-## 9. Equipo
+## 10. Equipo
 
-- David Escobar
-- Nicolás Sotelo
-- Juan Tellez
+- David
+- Nicolás
+- Perrochueco67
 
 Proyecto académico de Inteligencia Artificial, 2026.

@@ -3,5 +3,8 @@ numpy>=2.0
 pandas>=2.2
 scikit-learn>=1.5
 matplotlib>=3.8
+# Solo para exportar y probar el modelo final (.onnx)
+skl2onnx>=1.17
+onnxruntime>=1.18
 # Solo para abrir y ejecutar los notebooks en local
 jupyter
