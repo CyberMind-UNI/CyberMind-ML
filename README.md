@@ -258,8 +258,8 @@ python src/generar_dataset.py
 
 ## 10. Equipo
 
-- David
-- Nicolás
-- Perrochueco67
+- David Escobar
+- Nicolás Sotelo
+- Juan Tellez
 
 Proyecto académico de Inteligencia Artificial, 2026.
