@@ -167,7 +167,8 @@ CyberMind-ML/
 │   ├── generar_dataset.py               # genera el dataset (semilla 42)
 │   ├── verificar_dataset.py             # comprueba que la etiqueta es aprendible
 │   ├── entrenar_modelo_final.py         # entrena el GBDT final y genera el .onnx
-│   └── probar_modelo_onnx.py            # usa el .onnx como lo haría la app
+│   ├── probar_modelo_onnx.py            # usa el .onnx como lo haría la app
+│   └── graficas_presentacion.py         # gráficas de la sustentación en SVG y PNG 300 ppp
 ├── pruebas/
 │   ├── fase1_comparacion_modelos/       # regla fija + 4 modelos, métricas en prueba
 │   │   ├── 01_regla_fija.py
@@ -191,6 +192,7 @@ CyberMind-ML/
 │   ├── 02_pruebas_modelos.ipynb         # fase 1 en un solo cuaderno
 │   └── 03_entreno_vs_prueba.ipynb       # fase 2 en un solo cuaderno
 └── docs/                                # documentos entregados al profesor
+    └── graficas_presentacion/           # gráficas de las diapositivas (.svg y .png)
 ```
 
 ## 7. Cómo reproducir
@@ -247,6 +249,7 @@ python src/generar_dataset.py
 | [`docs/Documentacion_pruebas_modelos.docx`](docs/Documentacion_pruebas_modelos.docx) | Documentación de la fase 1 de pruebas |
 | [`docs/Documentacion_CyberMind_problema_variables_modelos.docx`](docs/Documentacion_CyberMind_problema_variables_modelos.docx) | Problema, justificación de variables, modelos y comparación |
 | [`docs/analisis_variables.json`](docs/analisis_variables.json) | Datos del análisis de relevancia de variables |
+| [`docs/graficas_presentacion/`](docs/graficas_presentacion/) | Las 3 gráficas de la sustentación en SVG (vectorial) y PNG a 300 ppp. Se regeneran con `python src/graficas_presentacion.py` a partir de los resultados guardados, sin reentrenar |
 
 ## 9. Próximos pasos
 
@@ -258,8 +261,8 @@ python src/generar_dataset.py
 
 ## 10. Equipo
 
-- David Escobar
-- Nicolás Sotelo
-- Juan Tellez
+- David
+- Nicolás
+- Perrochueco67
 
 Proyecto académico de Inteligencia Artificial, 2026.
